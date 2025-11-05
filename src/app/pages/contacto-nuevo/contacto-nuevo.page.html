@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/agenda-contactos"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nuevo Contacto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+  <div class="foto-container ion-text-center">
+    <ion-avatar class="avatar-preview">
+      <ion-img [src]="fotoPreview ? fotoPreview : 'assets/icon/favicon.png'" />
+    </ion-avatar>
+    <ion-button fill="clear" (click)="tomarFoto()">
+      <ion-icon slot="start" name="camera"></ion-icon>
+      Tomar Foto
+    </ion-button>
+    <ion-note class="ion-text-center">
+      <p>La API actual no soporta guardar la foto.</p>
+    </ion-note>
+  </div>
+
+  <form [formGroup]="contactoForm" (ngSubmit)="crearContacto()">
+    <ion-list [inset]="true">
+      <ion-item>
+        <ion-input
+          label="Nombre"
+          labelPlacement="floating"
+          formControlName="name"
+          required
+          errorText="El nombre es obligatorio"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input
+          label="Apellido"
+          labelPlacement="floating"
+          formControlName="apellido"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input
+          label="Email"
+          labelPlacement="floating"
+          type="email"
+          formControlName="email"
+          required
+          errorText="El email es obligatorio e inválido"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input
+          label="Posición (Cargo)"
+          labelPlacement="floating"
+          formControlName="posicion"
+        ></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-button 
+      type="submit" 
+      expand="block" 
+      class="ion-margin-top"
+      [disabled]="contactoForm.invalid"
+    >
+      Guardar Contacto
+    </ion-button>
+  </form>
+</ion-content>

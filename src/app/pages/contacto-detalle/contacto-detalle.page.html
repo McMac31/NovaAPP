@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/agenda-contactos"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle del Contacto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="eliminarContacto()" color="danger">
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <div *ngIf="!isLoading">
+    
+    <div class="foto-container ion-text-center">
+      <ion-avatar class="avatar-preview">
+        <ion-img [src]="fotoPreview ? fotoPreview : 'assets/icon/favicon.png'" />
+      </ion-avatar>
+      <ion-button fill="clear" (click)="tomarFoto()">
+        <ion-icon slot="start" name="camera"></ion-icon>
+        Cambiar Foto
+      </ion-button>
+      <ion-note class="ion-text-center">
+        <p>La API actual no soporta guardar la foto.</p>
+      </ion-note>
+    </div>
+
+    <form [formGroup]="contactoForm" (ngSubmit)="actualizarContacto()">
+      <ion-list [inset]="true">
+        <ion-item>
+          <ion-input
+            label="Nombre"
+            labelPlacement="floating"
+            formControlName="name"
+            required
+            errorText="El nombre es obligatorio"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Apellido"
+            labelPlacement="floating"
+            formControlName="apellido"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Email"
+            labelPlacement="floating"
+            type="email"
+            formControlName="email"
+            required
+            errorText="El email es obligatorio e inválido"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Posición (Cargo)"
+            labelPlacement="floating"
+            formControlName="posicion"
+          ></ion-input>
+        </ion-item>
+      </ion-list>
+
+      <ion-button 
+        type="submit" 
+        expand="block" 
+        class="ion-margin-top"
+        [disabled]="contactoForm.invalid"
+      >
+        <ion-icon slot="start" name="save"></ion-icon>
+        Actualizar Contacto
+      </ion-button>
+    </form>
+
+    <ion-list [inset]="true" class="ion-margin-top">
+      <ion-item-divider>
+        <ion-label color="primary">Geolocalización</ion-label>
+      </ion-item-divider>
+      <ion-item>
+        <ion-button fill="outline" (click)="obtenerGeolocalizacion()">
+          <ion-icon slot="start" name="location-sharp"></ion-icon>
+          Obtener Ubicación
+        </ion-button>
+        <ion-label *ngIf="geolocalizacion" class="ion-text-wrap ion-padding-start">
+          {{ geolocalizacion }}
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+</ion-content>

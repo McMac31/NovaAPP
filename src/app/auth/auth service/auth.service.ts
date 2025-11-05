@@ -7,7 +7,15 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
     private apiUrl = 'https://apitechsolutions.duckdns.org/api';
+    
     constructor(private http: HttpClient, private router: Router) { }
+
+    /**
+     * Devuelve la URL base de la API.
+     */
+    getApiUrl(): string {
+        return this.apiUrl;
+    }
 
     login(username: string, password: string) {
         const headers = {
@@ -25,7 +33,14 @@ export class AuthService {
         localStorage.setItem('token', token);
     }
 
+    /**
+     * Obtiene el token de autenticación desde localStorage.
+     */
+    getToken(): string | null {
+        return localStorage.getItem('token');
+    }
+
     isAuthenticated(): boolean {
-        return !!localStorage.getItem('token');
+        return !!this.getToken();
     }
 }
