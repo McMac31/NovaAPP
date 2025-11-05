@@ -1,0 +1,10 @@
+<div class="h-full px-5 flex justify-center items-center bg-white">
+  <ion-content class="h-6/12 rounded-xl">
+    <h1 class="text-center text-2xl mb-5 font-bold">INICIO DE SESIÓN</h1>
+    <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()" class="flex flex-col justify-center gap-5">
+      <ion-input formControlName="email" type="email" placeholder="email@domain.com"></ion-input>
+      <ion-input formControlName="password" type="password" placeholder="password" value="password"></ion-input>
+      <button type="submit" class="bg-purple-900 p-2 text-white rounded-xl hover:bg-purple-700">Ingresar</button>
+    </form>
+  </ion-content>
+</div>

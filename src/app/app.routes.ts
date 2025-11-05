@@ -1,13 +1,24 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './auth/auth guard/auth.guard';
 
 export const routes: Routes = [
   {
-    path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
+    path: 'agenda-contactos',
+    loadComponent: () => import('./pages/agenda-contactos/agenda-contactos.page').then( m => m.AgendaContactosPage),
+    canActivate:[AuthGuard]
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.routes').then((m) => m.authRoutes),
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'agenda-contactos',
     pathMatch: 'full',
   },
+  {
+    path: '**',
+    redirectTo: '/'
+  },
+
 ];
