@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Detalle de Contacto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="contacto; else noContacto">
+    <ion-list>
+      <ion-item>
+        <ion-label><strong>Nombre</strong></ion-label>
+        <ion-note slot="end">{{contacto?.name}}</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-label><strong>Email</strong></ion-label>
+        <ion-note slot="end">{{contacto?.email}}</ion-note>
+      </ion-item>
+    </ion-list>
+  </div>
+  <ng-template #noContacto>
+    <p>No se encontró el contacto.</p>
+  </ng-template>
+
+  <ion-button routerLink="/agenda-contactos">Volver</ion-button>
+</ion-content>

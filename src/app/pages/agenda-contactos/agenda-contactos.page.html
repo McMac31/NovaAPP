@@ -1,24 +1,66 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Contactos
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="doLogout()">
+        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-searchbar 
+      placeholder="Buscar por nombre o email" 
+      (ionInput)="onBuscar($event)"
+      debounce="300"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
-  <ion-header class="bg-purple-900 text-white p-2 rounded-bl-full rounded-br-full mb-2">
-    <h1 class="text-white text-bold text-center text-2xl">Contactos</h1>
-  </ion-header>
-
-  <ion-searchbar placeholder="Buscar por nombre o email" (ionInput)="onBuscar($event)"></ion-searchbar>
-
-  <ion-list lines="full">
-    <ion-item>
-      <i class="bi bi-person-fill text-purple-900 text-3xl mr-2"></i>
-      <ion-label>Full Lines</ion-label>
-    </ion-item>
-    <ion-item>
-      <i class="bi bi-person-fill text-purple-900 text-3xl mr-2"></i>
-      <ion-label>Full Lines</ion-label>
-    </ion-item>
-    <ion-item>
-      <i class="bi bi-person-fill text-purple-900 text-3xl mr-2"></i>
-      <ion-label>Full Lines</ion-label>
+  <ion-list [inset]="true">
+    <ion-item 
+      *ngFor="let contacto of contactosFiltrados" 
+      [button]="true" 
+      [detail]="true" 
+      (click)="verDetalle(contacto.id)"
+    >
+      <ion-avatar slot="start">
+        <div class="avatar-placeholder">
+          {{ contacto.name ? contacto.name[0].toUpperCase() : '?' }}
+        </div>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ contacto.name }}</h2>
+        <p>{{ contacto.email }}</p>
+      </ion-label>
     </ion-item>
   </ion-list>
 
+  <div *ngIf="contactosFiltrados.length === 0" class="ion-text-center ion-padding">
+    <ion-note>No se encontraron contactos.</ion-note>
+  </div>
 
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="irCrear()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
+
+<style>
+  .avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--ion-color-medium-shade);
+    color: var(--ion-color-medium-contrast);
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 50%;
+  }
+</style>
