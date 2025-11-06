@@ -8,7 +8,6 @@ export interface Contacto {
   id: number;
   name: string;
   email: string;
-  // Campos extra de la especificación de requisitos
   foto?: string; 
   apellido?: string;
   posicion?: string;
@@ -34,8 +33,6 @@ export class ContactosService {
 
   /**
    * Obtiene un contacto específico por su ID.
-   * NOTA: Este endpoint (GET /contactos/:id) no está en el clientes.py 
-   * Se implementa un fallback en la página de detalle.
    */
   getContacto(id: number): Observable<Contacto> {
      return this.http.get<Contacto>(`${this.apiUrl}/${id}`);

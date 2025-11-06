@@ -7,13 +7,13 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/agenda-contactos/agenda-contactos.page').then( m => m.AgendaContactosPage),
     canActivate:[AuthGuard]
   },
-  // Ruta para la pantalla de "Crear Contacto" (Requisito 3)
+  // Ruta para la pantalla de "Crear Contacto"
   {
     path: 'contacto-nuevo',
     loadComponent: () => import('./pages/contacto-nuevo/contacto-nuevo.page').then( m => m.ContactoNuevoPage),
     canActivate: [AuthGuard]
   },
-  // Ruta para la pantalla de "Detalle/Edición/Borrado" (Requisito 4)
+  // Ruta para la pantalla de "Detalle/Edición/Borrado"
   {
     path: 'contacto-detalle/:id',
     loadComponent: () => import('./pages/contacto-detalle/contacto-detalle.page').then( m => m.ContactoDetallePage),

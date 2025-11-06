@@ -38,7 +38,6 @@ export class ContactoNuevoPage {
   constructor() {
     addIcons({ camera });
 
-    // Requisito 3: Nombre, Apellido, Foto, Posición
     this.contactoForm = this.fb.group({
       name: ['', Validators.required],
       apellido: [''],
@@ -49,7 +48,7 @@ export class ContactoNuevoPage {
   }
 
   /**
-   * API de Capacitor Camera (Requisito 5.1).
+   * API de Capacitor Camera 
    */
   async tomarFoto() {
     try {
@@ -76,7 +75,7 @@ export class ContactoNuevoPage {
       return;
     }
 
-    // La API (clientes.py) solo acepta name y email
+
     const datosParaApi = {
       name: this.contactoForm.value.name,
       email: this.contactoForm.value.email

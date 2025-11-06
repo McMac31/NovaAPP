@@ -67,9 +67,7 @@ export class ContactoDetallePage implements OnInit {
     }
     this.contactoId = +idParam;
     
-    // --- CORRECCIÓN ---
-    // Ahora la llamada directa funciona gracias a la API actualizada.
-    // Ya no necesitamos el fallback.
+
     this.contactosService.getContacto(this.contactoId).subscribe({
       next: (contacto: Contacto) => {
         if (contacto) {
@@ -112,7 +110,7 @@ export class ContactoDetallePage implements OnInit {
         quality: 90, allowEditing: false,
         resultType: CameraResultType.DataUrl, source: CameraSource.Camera
       });
-      // fotoPreview ahora tiene el DataUrl (con prefijo)
+      // fotoPreview 
       this.fotoPreview = image.dataUrl; 
     } catch (error) {
       console.error('Error al tomar foto:', error);
@@ -132,7 +130,7 @@ export class ContactoDetallePage implements OnInit {
   }
 
   /**
-   * Actualiza los datos del contacto (Requisito 4).
+   * Actualiza los datos del contacto 
    */
   async actualizarContacto() {
     if (this.contactoForm.invalid || !this.contactoId) return;
@@ -162,7 +160,7 @@ export class ContactoDetallePage implements OnInit {
   }
 
   /**
-   * Muestra confirmación y elimina el contacto (Requisito 4).
+   * Muestra confirmación y elimina el contacto 
    */
   async eliminarContacto() {
     if (!this.contactoId) return;

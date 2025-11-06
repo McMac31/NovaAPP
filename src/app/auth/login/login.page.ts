@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import { 
   IonInput, IonItem, IonList, IonHeader, IonButton, IonContent,
-  IonToolbar, IonTitle // <-- CORRECCIÓN: Componentes añadidos
+  IonToolbar, IonTitle 
 } from '@ionic/angular/standalone';
 import { AuthService } from '../auth service/auth.service';
 import { Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
     templateUrl: 'login.page.html',
     styleUrls: ['login.page.scss'],
     standalone: true,
-    // CORRECCIÓN: Se añaden todos los componentes Ionic usados en el HTML
+
     imports: [
       CommonModule,
       ReactiveFormsModule,
@@ -24,8 +24,8 @@ import { CommonModule } from '@angular/common';
       IonItem,
       IonList,
       IonHeader,
-      IonToolbar, // <-- Añadido
-      IonTitle    // <-- Añadido
+      IonToolbar, 
+      IonTitle    
     ],
 })
 export class LoginPage{

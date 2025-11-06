@@ -23,7 +23,7 @@ import { AuthService } from '../../auth/auth service/auth.service';
       IonNote, IonList, IonFab, IonFabButton, IonButtons,IonImg
     ]
 })
-// CORRECCIÓN: Se añade 'export' a la clase
+
 export class AgendaContactosPage implements OnInit {
     
     private router = inject(Router);
