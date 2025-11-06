@@ -8,8 +8,8 @@ import {
   IonButtons, IonBackButton, AlertController, IonSpinner, IonItemDivider, IonLabel
 } from '@ionic/angular/standalone';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { Geolocation } from '@capacitor/geolocation'; // Requisito 5.1
-import { Toast } from '@capacitor/toast'; // Requisito 5.1
+import { Geolocation } from '@capacitor/geolocation';
+import { Toast } from '@capacitor/toast';
 import { addIcons } from 'ionicons';
 import { camera, trash, locationSharp, save } from 'ionicons/icons';
 import { Contacto, ContactosService } from '../../contactos.service';
@@ -20,11 +20,9 @@ import { Contacto, ContactosService } from '../../contactos.service';
   styleUrls: ['./contacto-detalle.page.scss'],
   standalone: true,
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem,
-    IonInput, IonButton, IonIcon, IonAvatar, IonImg, IonNote, IonButtons,
-    IonBackButton, IonSpinner, IonItemDivider, IonLabel
+    CommonModule, ReactiveFormsModule, IonHeader, IonToolbar, IonTitle, 
+    IonContent, IonList, IonItem, IonInput, IonButton, IonIcon, IonAvatar, 
+    IonImg, IonNote, IonButtons, IonBackButton, IonSpinner, IonItemDivider, IonLabel
   ]
 })
 export class ContactoDetallePage implements OnInit {
@@ -56,6 +54,9 @@ export class ContactoDetallePage implements OnInit {
 
   ngOnInit() { }
 
+  /**
+   * Carga los datos del contacto cuando la vista va a entrar.
+   */
   ionViewWillEnter() {
     this.isLoading = true;
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -66,43 +67,36 @@ export class ContactoDetallePage implements OnInit {
     }
     this.contactoId = +idParam;
     
-    // Carga de datos
-    this.cargarDatosContacto(this.contactoId);
-  }
-
-  /**
-   * Carga los datos del contacto.
-   * Incluye un fallback por si la API no tiene GET /contactos/:id.
-   */
-  cargarDatosContacto(id: number) {
-    this.contactosService.getContacto(id).subscribe({
+    // --- CORRECCIÓN ---
+    // Ahora la llamada directa funciona gracias a la API actualizada.
+    // Ya no necesitamos el fallback.
+    this.contactosService.getContacto(this.contactoId).subscribe({
       next: (contacto: Contacto) => {
-        this.poblarFormulario(contacto);
+        if (contacto) {
+          this.poblarFormulario(contacto);
+        } else {
+          this.handleLoadError('Contacto no encontrado.');
+        }
       },
       error: (err) => {
-        // Fallback: Si GET /:id falla, cargamos todos y filtramos
-        console.warn('GET /contactos/:id falló. Usando fallback...', err);
-        this.contactosService.getContactos().subscribe({
-          next: (response) => {
-            const contacto = response.contactos.find(c => c.id === id);
-            if (contacto) {
-              this.poblarFormulario(contacto);
-            } else {
-              this.handleLoadError('Contacto no encontrado.');
-            }
-          },
-          error: (fallbackErr) => this.handleLoadError('No se pudo cargar el contacto.')
-        });
+        this.handleLoadError('No se pudo cargar el contacto.');
+        console.error(err);
       }
     });
   }
 
+  /**
+   * Rellena el formulario con los datos del contacto.
+   */
   poblarFormulario(contacto: Contacto) {
     this.contactoForm.patchValue({
       name: contacto.name,
       email: contacto.email,
     });
-    // this.fotoPreview = contacto.foto; // Descomentar si la API devuelve fotos
+    // Si la API devuelve la foto (Base64), la mostramos
+    if (contacto.foto) {
+      this.fotoPreview = `data:image/jpeg;base64,${contacto.foto}`;
+    }
     this.isLoading = false;
   }
 
@@ -112,26 +106,20 @@ export class ContactoDetallePage implements OnInit {
     this.router.navigate(['/agenda-contactos']);
   }
 
-  /**
-   * API de Capacitor Camera (Requisito 5.1).
-   */
   async tomarFoto() {
     try {
       const image = await Camera.getPhoto({
         quality: 90, allowEditing: false,
         resultType: CameraResultType.DataUrl, source: CameraSource.Camera
       });
-      this.fotoPreview = image.dataUrl;
-      this.contactoForm.patchValue({ foto: image.dataUrl });
+      // fotoPreview ahora tiene el DataUrl (con prefijo)
+      this.fotoPreview = image.dataUrl; 
     } catch (error) {
       console.error('Error al tomar foto:', error);
       await Toast.show({ text: 'No se pudo tomar la foto.' });
     }
   }
 
-  /**
-   * API de Capacitor Geolocation (Requisito 5.1).
-   */
   async obtenerGeolocalizacion() {
     try {
       const coordinates = await Geolocation.getCurrentPosition();
@@ -149,11 +137,19 @@ export class ContactoDetallePage implements OnInit {
   async actualizarContacto() {
     if (this.contactoForm.invalid || !this.contactoId) return;
 
-    const datosParaApi = {
+    const datosParaApi: Partial<Contacto> = {
       name: this.contactoForm.value.name,
-      email: this.contactoForm.value.email
+      email: this.contactoForm.value.email,
+      apellido: this.contactoForm.value.apellido,
+      posicion: this.contactoForm.value.posicion
     };
 
+    // Si se tomó una foto nueva (this.fotoPreview tendrá el dataUrl)
+    if (this.fotoPreview && this.fotoPreview.startsWith('data:image')) {
+      // Limpiamos el prefijo 'data:image/jpeg;base64,'
+      datosParaApi.foto = this.fotoPreview.split(',')[1];
+    }
+    
     this.contactosService.updateContacto(this.contactoId, datosParaApi).subscribe({
       next: async () => {
         await Toast.show({ text: 'Contacto actualizado.', duration: 'short' });

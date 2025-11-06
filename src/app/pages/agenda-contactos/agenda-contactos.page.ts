@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { 
   IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, 
   IonSearchbar, IonButton, IonLabel, IonAvatar, IonItem, 
-  IonNote, IonList, IonFab, IonFabButton, IonButtons 
+  IonNote, IonList, IonFab, IonFabButton, IonButtons,IonImg
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { add, logOutOutline, personCircleOutline } from 'ionicons/icons';
@@ -20,7 +20,7 @@ import { AuthService } from '../../auth/auth service/auth.service';
     imports: [
       IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, 
       IonIcon, IonSearchbar, IonButton, IonLabel, IonAvatar, IonItem, 
-      IonNote, IonList, IonFab, IonFabButton, IonButtons
+      IonNote, IonList, IonFab, IonFabButton, IonButtons,IonImg
     ]
 })
 // CORRECCIÓN: Se añade 'export' a la clase

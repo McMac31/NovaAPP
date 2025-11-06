@@ -27,11 +27,16 @@
       [detail]="true" 
       (click)="verDetalle(contacto.id)"
     >
-      <ion-avatar slot="start" color="secondary">
-        <span *ngIf="contacto.name" class="avatar-letra">
+      <ion-avatar slot="start" color="light" class="avatar-placeholder">
+        
+        <ion-img *ngIf="contacto.foto" [src]="'data:image/jpeg;base64,' + contacto.foto"></ion-img>
+        
+        <span *ngIf="!contacto.foto && contacto.name" class="avatar-letra">
           {{ contacto.name[0].toUpperCase() }}
         </span>
-        <ion-icon *ngIf="!contacto.name" name="person-circle-outline"></ion-icon>
+        
+        <ion-icon *ngIf="!contacto.foto && !contacto.name" name="person-circle-outline"></ion-icon>
+
       </ion-avatar>
       <ion-label>
         <h2>{{ contacto.name }}</h2>
@@ -50,3 +55,18 @@
     </ion-fab-button>
   </ion-fab>
 </ion-content>
+
+<style>
+  .avatar-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ion-color-light-shade);
+    border: 1px solid var(--ion-color-medium-shade);
+  }
+  .avatar-letra {
+    font-weight: bold;
+    font-size: 1.4rem;
+    color: var(--ion-color-primary);
+  }
+</style>
