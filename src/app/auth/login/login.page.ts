@@ -7,7 +7,7 @@ import {
 import { AuthService } from '../auth service/auth.service';
 import { Router } from '@angular/router';
 import { Toast } from '@capacitor/toast';
-import { CommonModule } from '@angular/common'; // <-- CORRECCIÓN: Añadido
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-login',

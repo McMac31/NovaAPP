@@ -34,7 +34,7 @@ export class ContactosService {
 
   /**
    * Obtiene un contacto específico por su ID.
-   * NOTA: Este endpoint (GET /contactos/:id) no está en el clientes.py proporcionado.
+   * NOTA: Este endpoint (GET /contactos/:id) no está en el clientes.py 
    * Se implementa un fallback en la página de detalle.
    */
   getContacto(id: number): Observable<Contacto> {
